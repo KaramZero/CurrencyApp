@@ -5,22 +5,22 @@ import android.view.View
 import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.paymob.currencyapp.R
-import com.paymob.currencyapp.databinding.ActivityMainBinding
+import com.paymob.currencyapp.databinding.FragmentHomeBinding
 import com.paymob.currencyapp.model.dataClasses.ErrorType
 import com.paymob.currencyapp.model.dataClasses.Rates
 import com.paymob.currencyapp.model.dataClasses.ServerErrorType
 
-fun ActivityMainBinding.handelLoading() {
+fun FragmentHomeBinding.handelLoading() {
     progressBar.visibility = View.VISIBLE
     mainLayout.visibility = View.GONE
 }
 
-fun ActivityMainBinding.handleIdle() {
+fun FragmentHomeBinding.handleIdle() {
     progressBar.visibility = View.GONE
     mainLayout.visibility = View.VISIBLE
 }
 
-fun ActivityMainBinding.handleSuccess(ratesMap: Map<String, Double>?, context: Context) {
+fun FragmentHomeBinding.handleSuccess(ratesMap: Map<String, Double>?, context: Context) {
     progressBar.visibility = View.GONE
     mainLayout.visibility = View.VISIBLE
 
@@ -43,7 +43,7 @@ fun ActivityMainBinding.handleSuccess(ratesMap: Map<String, Double>?, context: C
 
 }
 
-fun ActivityMainBinding.handleError(error: ErrorType?, context: Context) {
+fun FragmentHomeBinding.handleError(error: ErrorType?, context: Context) {
     progressBar.visibility = View.GONE
     mainLayout.visibility = View.VISIBLE
 
@@ -65,7 +65,7 @@ fun ActivityMainBinding.handleError(error: ErrorType?, context: Context) {
     }
 }
 
-private fun ActivityMainBinding.handleError(message: String) {
+private fun FragmentHomeBinding.handleError(message: String) {
     Snackbar.make(
         swipeRefreshLayout,
         message,
@@ -74,14 +74,14 @@ private fun ActivityMainBinding.handleError(message: String) {
 }
 
 
-fun ActivityMainBinding.convertCurrency() {
+fun FragmentHomeBinding.convertCurrency() {
     val fromCurrency = spinnerFrom.selectedItem.toString()
     val toCurrency = spinnerTo.selectedItem.toString()
     val amount = etAmount.text.toString().toDoubleOrNull() ?: 1.0
     tvConvertedValue.text = Rates.convert(fromCurrency, toCurrency, amount).toString()
 }
 
-fun ActivityMainBinding.swapCurrencies() {
+fun FragmentHomeBinding.swapCurrencies() {
     val fromCurrency = spinnerFrom.selectedItemPosition
     val toCurrency = spinnerTo.selectedItemPosition
 

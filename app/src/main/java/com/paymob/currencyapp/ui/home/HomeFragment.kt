@@ -1,28 +1,40 @@
 package com.paymob.currencyapp.ui.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.paymob.currencyapp.databinding.ActivityMainBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.paymob.currencyapp.databinding.FragmentHomeBinding
 import com.paymob.currencyapp.model.dataClasses.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+@AndroidEntryPoint
+class HomeFragment : Fragment(){
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        installSplashScreen()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupViews()
         observeViewState()
     }
@@ -45,13 +57,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun observeViewState() {
-        viewModel.viewState.observe(this) { viewState ->
+        viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
                 is ViewState.Loading -> binding.handelLoading()
                 is ViewState.Success ->
-                    binding.handleSuccess(viewState.data.rates?.getCurrencies(), this)
+                    binding.handleSuccess(viewState.data.rates?.getCurrencies(), binding.root.context)
 
-                is ViewState.Error -> binding.handleError(viewState.error, this)
+                is ViewState.Error -> binding.handleError(viewState.error,  binding.root.context)
                 is ViewState.Idle -> binding.handleIdle()
             }
         }
@@ -66,5 +78,7 @@ class HomeActivity : AppCompatActivity() {
             // Do nothing
         }
     }
+
+
 
 }
