@@ -75,7 +75,11 @@ class HomeFragment : Fragment() {
                         binding.root.context
                     )
 
-                is ViewState.Error -> binding.handleError(viewState.error, binding.root.context)
+                is ViewState.Error ->
+                    binding.handleError(viewState.error, binding.root.context) {
+                        viewModel.getLatestRates()
+                    }
+
                 is ViewState.Idle -> binding.handleIdle()
             }
         }

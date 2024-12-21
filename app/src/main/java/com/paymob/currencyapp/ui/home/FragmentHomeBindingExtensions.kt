@@ -44,34 +44,36 @@ fun FragmentHomeBinding.handleSuccess(ratesMap: Map<String, Double>?, context: C
 
 }
 
-fun FragmentHomeBinding.handleError(error: ErrorType?, context: Context) {
+fun FragmentHomeBinding.handleError(error: ErrorType?, context: Context, retryAction: () -> Unit) {
     progressBar.visibility = View.GONE
-    mainLayout.visibility = View.VISIBLE
+    mainLayout.visibility = View.GONE
 
     val defaultMessage = context.getString(R.string.your_request_can_t_be_completed_at_the_moment)
     when (error) {
-        is ErrorType.RequestNotCompletedError -> handleError(error.message ?: defaultMessage)
+        is ErrorType.RequestNotCompletedError -> handleError(error.message ?: defaultMessage, retryAction)
         is ErrorType.ServerError -> {
             if (error.error == ServerErrorType.UNAUTHORIZED) {
                 // Redirect to login screen
             } else {
-                handleError(defaultMessage)
+                handleError(defaultMessage, retryAction)
             }
         }
 
-        is ErrorType.DataParsingError -> handleError(defaultMessage)
-        is ErrorType.NetworkError -> handleError(context.getString(R.string.check_your_internet_connection))
-        is ErrorType.RequestTimeoutError -> handleError(context.getString(R.string.request_time_out_message))
-        else -> handleError(defaultMessage)
+        is ErrorType.DataParsingError -> handleError(defaultMessage, retryAction)
+        is ErrorType.NetworkError -> handleError(context.getString(R.string.check_your_internet_connection), retryAction)
+        is ErrorType.RequestTimeoutError -> handleError(context.getString(R.string.request_time_out_message), retryAction)
+        else -> handleError(defaultMessage, retryAction)
     }
 }
 
-private fun FragmentHomeBinding.handleError(message: String) {
+private fun FragmentHomeBinding.handleError(message: String, retryAction: () -> Unit) {
     Snackbar.make(
         swipeRefreshLayout,
         message,
         Snackbar.LENGTH_LONG
-    ).show()
+    ).setAction("Retry") {
+        retryAction()
+    }.show()
 }
 
 
