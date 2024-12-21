@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.paymob.currencyapp.R
 import com.paymob.currencyapp.databinding.FragmentHomeBinding
 import com.paymob.currencyapp.model.dataClasses.ViewState
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -48,10 +50,17 @@ class HomeFragment : Fragment(){
             spinnerFrom.onItemSelectedListener = onItemSelected
             spinnerTo.onItemSelectedListener = onItemSelected
             btnConvert.setOnClickListener {
-                convertCurrency()
+                convertCurrency {
+                    viewModel.insertRate(it)
+                }
             }
             btnSwap.setOnClickListener {
                 swapCurrencies()
+            }
+
+            btnHistory.setOnClickListener {
+                if (findNavController().currentDestination?.id == R.id.homeFragment)
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToHistoryFragment())
             }
         }
     }
@@ -61,9 +70,12 @@ class HomeFragment : Fragment(){
             when (viewState) {
                 is ViewState.Loading -> binding.handelLoading()
                 is ViewState.Success ->
-                    binding.handleSuccess(viewState.data.rates?.getCurrencies(), binding.root.context)
+                    binding.handleSuccess(
+                        viewState.data.rates?.getCurrencies(),
+                        binding.root.context
+                    )
 
-                is ViewState.Error -> binding.handleError(viewState.error,  binding.root.context)
+                is ViewState.Error -> binding.handleError(viewState.error, binding.root.context)
                 is ViewState.Idle -> binding.handleIdle()
             }
         }
@@ -71,14 +83,12 @@ class HomeFragment : Fragment(){
 
     private val onItemSelected = object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            binding.convertCurrency()
+            binding.convertCurrency {}
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
             // Do nothing
         }
     }
-
-
 
 }

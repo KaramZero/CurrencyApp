@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Currency App</string>
+
+    <string name="your_request_can_t_be_completed_at_the_moment">لا يمكن إتمام طلبك في الوقت الحالي. يرجى المحاولة مرة أخرى لاحقًا.</string>
+    <string name="check_your_internet_connection">يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</string>
+    <string name="request_time_out_message">انتهت مهلة الطلب. يرجى المحاولة مرة أخرى لاحقًا.</string>
+    <string name="swap_text">⇄</string>
+    <string name="enter_amount_1">أدخل المبلغ ( 1 )</string>
+    <string name="converted_value">القيمة المحولة</string>
+    <string name="convert">تحويل</string>
+    <string name="history_icon">أيقونة السجل</string>
+    <string name="currency_history">سجل العملات</string>
+    <string name="rate">السعر: %1$s</string>
+    <string name="date">التاريخ: %1$s</string>
+
+</resources>

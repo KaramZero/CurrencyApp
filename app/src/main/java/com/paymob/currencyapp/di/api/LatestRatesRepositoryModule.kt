@@ -1,7 +1,7 @@
 package com.paymob.currencyapp.di.api
 
 
-import com.paymob.currencyapp.domain.LatestRatesRepository
+import com.paymob.currencyapp.domain.repo.LatestRatesRepository
 import com.paymob.currencyapp.model.repository.LatestRatesRepositoryImpl
 import dagger.Binds
 import dagger.Module

@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.paymob.currencyapp.R
 import com.paymob.currencyapp.databinding.FragmentHomeBinding
 import com.paymob.currencyapp.model.dataClasses.ErrorType
+import com.paymob.currencyapp.model.dataClasses.HistoryRates
 import com.paymob.currencyapp.model.dataClasses.Rates
 import com.paymob.currencyapp.model.dataClasses.ServerErrorType
 
@@ -74,11 +75,18 @@ private fun FragmentHomeBinding.handleError(message: String) {
 }
 
 
-fun FragmentHomeBinding.convertCurrency() {
+fun FragmentHomeBinding.convertCurrency(insert: (rate:HistoryRates) -> Unit) {
     val fromCurrency = spinnerFrom.selectedItem.toString()
     val toCurrency = spinnerTo.selectedItem.toString()
     val amount = etAmount.text.toString().toDoubleOrNull() ?: 1.0
     tvConvertedValue.text = Rates.convert(fromCurrency, toCurrency, amount).toString()
+    insert(HistoryRates(
+        fromCurrency = fromCurrency,
+        toCurrency = toCurrency,
+        rate = amount/tvConvertedValue.text.toString().toDouble(),
+        date = System.currentTimeMillis()
+        )
+    )
 }
 
 fun FragmentHomeBinding.swapCurrencies() {

@@ -75,6 +75,11 @@ dependencies {
     implementation(libs.converter.moshi)
     implementation(libs.logging.interceptor)
 
+
+    //Room DB
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+
     //gson
     implementation(libs.gson)
 

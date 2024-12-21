@@ -2,7 +2,9 @@ package com.paymob.currencyapp.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.paymob.currencyapp.domain.LatestRatesUseCase
+import com.paymob.currencyapp.domain.useCases.GetLatestRatesUseCase
+import com.paymob.currencyapp.domain.useCases.InsertRateUseCase
+import com.paymob.currencyapp.model.dataClasses.HistoryRates
 import com.paymob.currencyapp.model.dataClasses.LatestRatesResponse
 import com.paymob.currencyapp.model.dataClasses.ViewState
 import com.paymob.currencyapp.utilities.launchIO
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val useCase: LatestRatesUseCase
+    private val useCase: GetLatestRatesUseCase,
+    private val insertRateUseCase: InsertRateUseCase
 ) : ViewModel() {
 
 
@@ -30,6 +33,12 @@ class HomeViewModel @Inject constructor(
                 .let {
                     _viewState.postValue(it)
                 }
+        }
+    }
+
+    fun insertRate(rate: HistoryRates) {
+        launchIO {
+            insertRateUseCase.invoke(rate)
         }
     }
 
