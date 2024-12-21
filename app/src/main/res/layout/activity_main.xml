@@ -1,19 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Spinner
+            android:id="@+id/spinner_from"
+            style="@style/spinner_style"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toStartOf="@id/btn_swap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_swap"
+            style="@style/swap_btn_style"
+            android:text="@string/swap_text"
+            app:layout_constraintBottom_toBottomOf="@id/spinner_from"
+            app:layout_constraintEnd_toStartOf="@id/spinner_to"
+            app:layout_constraintStart_toEndOf="@id/spinner_from"
+            app:layout_constraintTop_toTopOf="@id/spinner_from" />
+
+        <Spinner
+            android:id="@+id/spinner_to"
+            style="@style/spinner_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_swap"
+            app:layout_constraintTop_toTopOf="@id/spinner_from" />
+
+        <EditText
+            android:id="@+id/et_amount"
+            style="@style/et_amount_style"
+            android:hint="@string/enter_amount_1"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_from" />
+
+        <TextView
+            android:id="@+id/tv_converted_value"
+            style="@style/et_amount_style"
+            android:layout_marginTop="16dp"
+            android:hint="@string/converted_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_amount" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/progress_bar_style"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_converted_value" />
+
+        <Button
+            android:id="@+id/btn_convert"
+            style="@style/btn_convert_style"
+            android:text="@string/convert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_converted_value" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/mainLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="spinner_from,btn_swap,spinner_to,et_amount,tv_converted_value,btn_convert" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
